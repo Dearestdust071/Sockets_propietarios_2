@@ -28,21 +28,21 @@ export class WebsocketsServiceService {
   
   private socket!: WebSocket; //Abre la conexion
   private socketOpenPromise: Promise<void>; //Checar que ya esté conectado
-  public observable: Subject<EntryModel> = new Subject<EntryModel>(); //Recibir y vernlos mensajes
+  public observable: Subject<EntryModel> = new Subject<EntryModel>(); //Recibir y ver los mensajes
   private platform_id: Object = inject(PLATFORM_ID);
 
 
   constructor() {
     //Abre la conexion
     if (isPlatformBrowser(this.platform_id) && typeof window != undefined)
-      this.socket = new WebSocket('ws://192.168.30.155:9001');
+      this.socket = new WebSocket('ws://192.168.101.95:9001');
 
 
     this.socketOpenPromise = new Promise<void>((resolve, reject) => {
 
       if (this.socket != undefined) {
         this.socket.onopen = () => {
-          console.log('Connect');
+          console.log('Se conecto a el websocket exitosamente!');
           resolve();
         };
         this.socket.onerror = (event) => {
@@ -125,6 +125,22 @@ export class WebsocketsServiceService {
     }
   }
 
+  public async CreateRoom(roomName: string) {
+    try {
+      await this.socketOpenPromise;
+      const message = {
+        Action_Type: 'createRoom',
+        Value: {
+          Name: roomName,
+          Msg: ''
+        },
+      };
+      this.socket.send(JSON.stringify(message));
+    } catch (error) {
+      console.error('Error connecting to the WebSocket:', error);
+    }
+  }
+
   public async LeaveRoom(roomName: string) {
     try {
       await this.socketOpenPromise;
@@ -156,9 +172,5 @@ export class WebsocketsServiceService {
       console.error('Error connecting', error);
     }
   }
-
-
-  // Tarea: Cuando ponga crear o join tiene que sacarme de donde ando y meterme en la nueva sala (Obligatoria)
-  // Tarea2: Que vean la forma de que me aparezca una lista de las rooms que estan disponibles 
 
 }

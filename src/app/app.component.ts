@@ -72,6 +72,8 @@ export class AppComponent {
   }
 
   JoinRoom(roomName: string){
+    // console.log("Sientro en joiun roroomos aosdm ");
+    
     if(this.roomNameStored != ''){
       this.ws.LeaveRoom(this.roomNameStored);
     }
@@ -82,4 +84,14 @@ export class AppComponent {
     this.ListenFormChanges(); //escucha los cambios en los otros formularios
     this.formulario3.reset(); //resetea el input
   }
+
+  CreateRoom(roomName: string){
+    this.ws.CreateRoom(roomName);
+
+
+
+    this.ListenFormChanges(); //escucha los cambios en los otros formularios
+    this.formulario3.reset();
+  }
+
 }

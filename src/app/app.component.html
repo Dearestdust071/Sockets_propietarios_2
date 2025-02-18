@@ -5,7 +5,7 @@
   <div style="display: inline-block; text-align: left; width: 40%; margin-right: 20px;">
     <div style="display: flex; justify-content:space-between">
       <h2 style="background-color: white; border-radius:10px; padding:5px">Rooms</h2>
-      <form [formGroup]="formulario3" (ngSubmit)="JoinRoom(formulario3.value.msg)">
+      <form [formGroup]="formulario3" (ngSubmit)="CreateRoom(formulario3.value.msg)">
         <div>
           <input style="height: 40px;" type="text" placeholder="Nombre de room..." formControlName="msg">
           <button style="height: 40px;" type="submit">Crear</button>
@@ -16,9 +16,13 @@
       <textarea formControlName="msg" style="width: 100%;" rows="10" cols="50"></textarea>
     </form>
 
-    <li *ngFor = "let room of roomAvailable">
-      {{room.RoomName}} : {{room.User}}
-    </li>
+    <ul *ngFor = "let room of roomAvailable">
+      
+      <button (click)="JoinRoom(room.RoomName)">
+        {{room.RoomName}} : {{room.User}}
+      </button>
+      
+    </ul>
 
 
 

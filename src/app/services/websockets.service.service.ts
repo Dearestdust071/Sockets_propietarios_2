@@ -35,7 +35,7 @@ export class WebsocketsServiceService {
   constructor() {
     //Abre la conexion
     if (isPlatformBrowser(this.platform_id) && typeof window != undefined)
-      this.socket = new WebSocket('ws://192.168.101.95:9001');
+      this.socket = new WebSocket('ws://192.168.30.155:9001');
 
 
     this.socketOpenPromise = new Promise<void>((resolve, reject) => {
@@ -99,6 +99,11 @@ export class WebsocketsServiceService {
             case 'rooms':
             if (entry.Action_Type === eventName) {
               observer.next(entry.Value.Rooms);
+            }
+            break;
+            case 'join':
+            if (entry.Action_Type === eventName) {
+              observer.next(entry.Value.Msg);
             }
             break;
           default:

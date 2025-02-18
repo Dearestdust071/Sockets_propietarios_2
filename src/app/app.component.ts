@@ -38,6 +38,7 @@ export class AppComponent {
     this.ListenMessageForRoom();
     this.ListenFormChanges();
     this.ListenAvailableRooms();
+    this.ListenMessageForRoomJoined();
   }
 
   ListenFormChanges(){
@@ -70,6 +71,21 @@ export class AppComponent {
       this.formulario.get('msg')?.patchValue(msg, { emitEvent: false });
     });
   }
+
+
+  ListenMessageForRoomJoined() { //Escucha los mensajes de las rooms
+    this.ws.Listen('join').subscribe((msg: string) => {
+      // En de abajo se cambia para parchar un formulario o espacio para poner la informacion necesaria
+      console.log(msg);
+      alert(msg);
+      this.formulario.get('msg')?.patchValue(msg, { emitEvent: false });
+    });
+  }
+
+
+
+
+
 
   JoinRoom(roomName: string){
     // console.log("Sientro en joiun roroomos aosdm ");
